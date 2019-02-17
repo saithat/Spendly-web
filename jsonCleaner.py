@@ -5,15 +5,16 @@ import array
 import datetime
 from geopy.geocoders import MapBox
 import mapbox_creds
+import re
 
-f = open("EmbeddingAPIWorkflowSample/dummyreceipt.json", "r")
+f = open("dummyreceipt.json", "r")
 
 datastore = json.load(f)
 #datastore = f
 
 arr = [["Kroger", "Publix", "Walmart", "Whole Foods", "Aldi", "Sprouts"],["McDonald's", "Wendy's", "Frisch's Big Boy", "OMG! Rotisserie", "Domino's Pizza", "Long John Silver's", "Whataburger", "Hamburger King", "Burger King"], ["Mapco", "Pilot", "Shell", "BP", "Exxon"]]
 
-print(type(datastore))
+#print(type(datastore))
 
 count = 0
 total = 0.0
@@ -38,11 +39,11 @@ for i in datastore["recognitionResult"]["lines"]:
         if(key == "text"):
             clean.append(i[key])
 
-print(clean)
+#print(clean)
 
 try:
     tmp = clean.index("Total")
-    print(tmp)
+    #print(tmp)
     total = float(clean[tmp+1])
 except (RuntimeError, TypeError, NameError):
     try:
@@ -67,8 +68,18 @@ for i in range(10):
 dat = datetime.datetime.now()
 
 geolocator = MapBox(api_key=mapbox_creds.API_KEY,user_agent="spendly-web")
-location = geolocator.geocode(clean[2]+ clean[3])
-timey = dat.strftime('{%Y-%m-%d.%H:%M:%S}')
+
+concat = ""
+
+for i in clean:
+    concat = concat + " " + i
+
+print(concat)
+address = re.search(r"\d{1,4}[A-Z]?\s([NSEW]\.)?\s(\d{1,3}(st|nd|rd|th))?\s(\w\s)+([A-Z][a-z]{1,3}\.)?", concat)
+print(address)
+
+location = geolocator.geocode(address)
+timey = dat.strftime('%Y-%m-%d.%H:%M:%S')
 
 data = { 
     'timestamp': timey, 
