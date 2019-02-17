@@ -18,21 +18,14 @@ assert subscription_key
 # If you use a free trial subscription key, you shouldn't need to change
 # this region.
 '''class parse:
-    image_url = ""
-
-    def __init__(self, url):
-        image_url = url
-'''
-#if __name__ == "__main__":
-#    getCloudJSON("https://support.checkout51.com/hc/en-us/article_attachments/200464383/receipt_examples_perfect_sm.jpg")
-
+    image_url = ""'''
 
 def getCloudJSON(receipt):
     vision_base_url = "https://eastus.api.cognitive.microsoft.com/vision/v2.0/"
 
     ocr_url = vision_base_url + "ocr"
 
-        # Set image_url to the URL of an image that you want to analyze.
+    # Set image_url to the URL of an image that you want to analyze.
     image_url = receipt;
 
     headers = {'Ocp-Apim-Subscription-Key': subscription_key}
@@ -41,7 +34,7 @@ def getCloudJSON(receipt):
     response = requests.post(ocr_url, headers=headers, params=params, json=data)
     response.raise_for_status()
 
-    print(response.json())
+    print(response.json());
     # print(analysis)
 
     # # Extract the word bounding boxes and text.
