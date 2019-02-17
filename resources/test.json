@@ -1,0 +1,9 @@
+{
+	"timestamp": "number",
+	"location": {
+		"lat": "number",
+		"lon": "number":
+	},
+	"cost": "number",
+	"type": "string"
+}

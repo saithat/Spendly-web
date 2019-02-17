@@ -18,13 +18,13 @@ assert subscription_key
 # If you use a free trial subscription key, you shouldn't need to change
 # this region.
 
-def getCloudJSON($_receipt):
+def getCloudJSON(receipt):
     vision_base_url = "https://eastus.api.cognitive.microsoft.com/vision/v2.0/"
 
     ocr_url = vision_base_url + "ocr"
 
     # Set image_url to the URL of an image that you want to analyze.
-    image_url = $_receipt;
+    image_url = receipt;
 
     headers = {'Ocp-Apim-Subscription-Key': subscription_key}
     params  = {'language': 'unk', 'detectOrientation': 'true'}
@@ -32,7 +32,7 @@ def getCloudJSON($_receipt):
     response = requests.post(ocr_url, headers=headers, params=params, json=data)
     response.raise_for_status()
 
-    return response.json();
+    print(response.json());
     # print(analysis)
 
     # # Extract the word bounding boxes and text.
